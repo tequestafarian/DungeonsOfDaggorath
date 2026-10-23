@@ -20,7 +20,11 @@
 ;       Red   - Secret Door
 ;       White - Wall
 ;
-MAPPER  LDU     FLOP            ;use alternate VDB
+MAPPER  EQU     *
+        IFDEF   COCO3
+        JSR     TDUNTF          ;no longer a top-down frame
+        ENDC
+        LDU     FLOP            ;use alternate VDB
         LDD     #$1F1F          ;set initial row,col
         STD     DROW            ;   .
 ;

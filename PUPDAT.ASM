@@ -5,7 +5,7 @@ PUPDAX  TST     FAINT           ;are we unconscious?
 ;
         BSR     PUPSUB          ;generate next display in FLOP
         DEC     UPDATE          ;request screen switch
-        SYNC                    ;wait for it to happen
+        VSYNC                    ;wait for it to happen
 PUPD99  RTS                     ;exit
 ;
 PUPSUB  PSHS    A,B,X,Y,U       ;save some regs

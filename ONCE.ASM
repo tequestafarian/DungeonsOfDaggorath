@@ -58,6 +58,9 @@ CINI10  CLR     ,X+             ;zero next location
         STU     ,--S            ;stack return addr
         LDA     #2              ;org the DP @ $0200
         TFR     A,DP            ;   .
+        IFDEF   COCO3
+        JSR     ENGINI          ;set up the GIME
+        ENDC
 ;
 ;  Initialize RAM Locations
 ;
@@ -258,7 +261,7 @@ DEMO10  DEC     AUTFLG          ;indicate AUTOPLAY mode
         SWI                     ;blank the screen
         FCB     ZFLOP           ;   .
         DEC     UPDATE          ;   .
-        SYNC                    ;   .
+        VSYNC                    ;   .
 ;
 ;  Create Autoplay Dungeon/Drop Player into it
 ;
@@ -331,8 +334,8 @@ GAME40  TST     AUTFLG          ;autoplay?
         FCB     WAIT            ;   .
         CLR     SLEEP           ;wake up
 ;
-        SYNC                    ;delay for AUTOPLAY synchronization
-        SYNC                    ;   .
+        VSYNC                    ;delay for AUTOPLAY synchronization
+        VSYNC                    ;   .
 ;
 GAME50  SWI                     ;initial view
         FCB     INIVU           ;   .

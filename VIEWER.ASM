@@ -58,7 +58,14 @@ SSCL10  LDA     RANGE           ;load range
 ;
 ;  VIEWER: Initialization
 ;
-VIEWER  SWI                     ;clear alternate screen
+VIEWER  EQU     *
+        IFDEF   COCO3
+        LDA     #1              ;there is a view to switch
+        STA     VUSEEN          ;   .
+        TST     TOPDN           ;seen from above?
+        LBNE    TDVIEW          ;   yes
+        ENDC
+        SWI                     ;clear alternate screen
         FCB     ZFLOP           ;   .
         CLR     RANGE           ;reset range
         LDD     PROW            ;load player position

@@ -4,7 +4,11 @@
 ;
 ;  PZLOAD: Game Restore Function
 ;
-PZLOAD  BSR     FILNAM          ;get the file name
+PZLOAD  EQU     *
+        IFDEF   COCO3
+        RTS                     ;no cassette on the CoCo 3 build
+        ENDC
+        BSR     FILNAM          ;get the file name
         DEC     ZFLAG           ;flag for load
         RTS                     ;bye
 ;
@@ -16,7 +20,11 @@ FILNAM  LDX     #TOKEN          ;initialize TOKEN buffer
 ;
 ;  PZSAVE: Game Restore Function
 ;
-PZSAVE  BSR     FILNAM          ;get the file name
+PZSAVE  EQU     *
+        IFDEF   COCO3
+        RTS                     ;no cassette on the CoCo 3 build
+        ENDC
+        BSR     FILNAM          ;get the file name
         STX     >$007E          ;set buffer addr
         LDD     #$000F          ;BLKTYP,,BLKLEN  (0=namefile,,15=length)
         STD     >$007C          ;   .

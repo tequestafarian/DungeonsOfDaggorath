@@ -90,7 +90,7 @@ HUPD20  LDD     T1              ;16 LSBits of numerator
 HUPD30  DEC     MLIGHT          ;reduce lighting
         JSR     [DSPMOD]        ;show the new view
         DEC     UPDATE          ;request and wait for screen update
-        SYNC                    ;   .
+        VSYNC                    ;   .
         DEC     RLIGHT          ;lower lighting
         LDA     RLIGHT          ;done?
         CMPA    #-8             ;   .
@@ -114,7 +114,7 @@ HUPD40  CMPA    #4              ;should we get up?
 ;
 HUPD42  JSR     [DSPMOD]        ;create the new scene
         DEC     UPDATE          ;request screen update
-        SYNC                    ;   .
+        VSYNC                    ;   .
         INC     MLIGHT          ;increase lighting
         INC     RLIGHT          ;   .
         LDA     RLIGHT          ;done yet?

@@ -14,7 +14,7 @@ M$CURS  FCB     I.BAR,I.BS,$FF
 ;  WAITX: Delay Processing 1.5 Second
 ;
 WAITX   LDB     #81             ;delay for 1.35 seconds
-WAIT10  SYNC                    ;wait for a jiffy to occur
+WAIT10  VSYNC                    ;wait for a jiffy to occur
         DECB                    ;decrement and loop
         BNE     WAIT10          ;   .
         RTS
@@ -125,7 +125,7 @@ WIZZES  PSHS    X,U             ;save regs
         SWI                     ;   .
         FCB     VCTLST          ;   .
         DEC     UPDATE          ;flag for update
-        SYNC                    ;wait for flip
+        VSYNC                    ;wait for flip
         PULS    X,U,PC          ;restore regs/exit
 
 

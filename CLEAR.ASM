@@ -7,6 +7,9 @@ ZFLIPX  LDU     FLIP            ;current VDB ptr
 ZFLOPX  LDU     FLOP            ;alternate VDB ptr
         LDB     VDGINV          ;load inverse mode value
         BSR     CLEAR           ;clear the screen
+        IFDEF   COCO3
+        JSR     TDUNTG          ;no longer a top-down frame
+        ENDC
         STU     10,S            ;return the VDB ptr
         RTS                     ;bye
 ;

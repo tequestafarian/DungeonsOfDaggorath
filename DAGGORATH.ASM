@@ -87,6 +87,7 @@
         ;macro invocations.  Some macros had missing definitions, which were recreated.
         ;Since these recreated macros were not original, I am moving them to a separate file.
         include missing-macros.asm
+        INCLUDE coco3/C3DEF.ASM  ;CoCo 3 definitions (both builds)
 
         INCLUDE CD.ASM           ;Common Definition File
         INCLUDE ONCE.ASM         ;Once only Initialization
@@ -134,6 +135,9 @@
         INCLUDE D3.ASM           ;Creature Vector List (I)
         INCLUDE D4.ASM           ;Creature Vector List (II)
         INCLUDE KSK.ASM          ;Good Use of leftover Bytes
+        IFDEF   COCO3
+        INCLUDE coco3/ENGINE.ASM ;CoCo 3 display and keyboard engine
+        ENDC
 ;
 ;   End of program
 ;

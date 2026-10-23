@@ -87,6 +87,9 @@ TSCR22  STD     ,X++            ;deposit two bytes into first screen
         LEAY    -2,Y            ;decrement loop count
         BNE     TSCR20          ;loop
 ;
+        IFDEF   COCO3
+        JSR     TXSMRK          ;engine shows the scrolled lines
+        ENDC
         PULS    A,B,X,Y,PC      ;restore regs/exit
 ;
 ;  LSLDn: 16-bit Logic Shift Left
@@ -171,6 +174,9 @@ DPB00   LDD     P.TXCUR,U       ;load cursor position
         LSRB                    ;   .
         ADDD    P.TXBAS,U       ;add base addr to get pointer
         TFR     D,Y             ;transfer to index register
+        IFDEF   COCO3
+        JSR     TXMARK          ;engine shows the changed line
+        ENDC
 ;
 ;  At this point:
 ;       X - ptr to software character (7-bytes)

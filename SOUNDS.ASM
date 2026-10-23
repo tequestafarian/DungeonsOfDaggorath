@@ -19,11 +19,17 @@ SOUNDI  LDX     12,S            ;load return addr
         LDB     #$FF            ;use full volume
 ;
 SOUNDX  EQU     *
+        IFDEF   COCO3
+        STA     SAMSLO          ;sounds are timed at 0.89 MHz
+        ENDC
         STB     SNVOL           ;store volume parameter
         LDX     #SNDTAB         ;table base addr
         LSLA                    ;*2 for word offsets
         JSR     [A,X]           ;dispatch to correct routine
         CLR     P.PIIOA+PIA$1   ;leave DAC at zero
+        IFDEF   COCO3
+        STA     SAMFST          ;back to 1.79 MHz
+        ENDC
         RTS                     ;bye
 
 

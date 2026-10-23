@@ -43,7 +43,7 @@ PTUR22  BSR     RLTURN          ;   .
 ;  Show the next display
 ;
 PTUR90  DEC     UPDATE          ;request screen update
-        SYNC                    ;   .
+        VSYNC                    ;   .
         RTS
 
 
@@ -85,7 +85,12 @@ ERRCMD2 JMP     CMDERR          ;flag errors
 ;
 ;  TURN00: Initialization
 ;
-TURN00  LDU     DSPMOD          ;are we in forward viewing mode?
+TURN00  EQU     *
+        IFDEF   COCO3
+        TST     TOPDN           ;no sweep when seen from above
+        BNE     TURN02          ;   .
+        ENDC
+        LDU     DSPMOD          ;are we in forward viewing mode?
         CMPU    #VIEWER         ;   .
         BNE     TURN02          ;   nope - don't do anything
 ;
@@ -202,7 +207,7 @@ PMOV90  LDD     POBJWT          ;(weight / 8) + 3
         SWI                     ;   .
         FCB     HUPDAT          ;   .
         DEC     UPDATE          ;request screen switch
-        SYNC                    ;wait for it to happen
+        VSYNC                    ;wait for it to happen
         RTS                     ;   .
 
 

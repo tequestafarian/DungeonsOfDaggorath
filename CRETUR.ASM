@@ -328,7 +328,11 @@ CWLK10  SUBB    PCOL            ;absolute column difference
         NEGB                    ;   .
 
 ;
-CWLK12  STB     T0              ;store column difference
+CWLK12  EQU     *
+        IFDEF   COCO3
+        JSR     TDNEAR          ;in the top-down window?
+        ENDC
+        STB     T0              ;store column difference
         CMPA    T0              ;bigger difference into ACCA
         BGE     CWLK20          ;   .
         EXG     A,B             ;   .

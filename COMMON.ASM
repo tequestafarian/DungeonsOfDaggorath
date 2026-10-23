@@ -145,7 +145,11 @@ LOAD90  JSR     IRQSYN          ;enable/sync on IRQ
 ;
 ;  SCHED: The "Merry-Go-Round"
 ;
-SCHED   LDU     #SCDQUE         ;start at queue head
+SCHED   EQU     *
+        IFDEF   COCO3
+        JSR     ENGSCH          ;switch views, show new frames and text
+        ENDC
+        LDU     #SCDQUE         ;start at queue head
         CLR     RSTART          ;reset "restart" flag
 SCHED0  TFR     U,Y             ;curr TCB becomes prev TCB
 ;
@@ -327,7 +331,11 @@ GETTCB  PSHS    X               ;save regs
 ;       B - Bit:  7  6  5  4  3  2  1  0
 ;           SAM:  F4 F3 F2 F1 F0 V2 V1 V0
 ;
-SAM     PSHS    A,B,X           ;save regs
+SAM     EQU     *
+        IFDEF   COCO3
+        RTS                     ;CoCo 3: the GIME owns the display
+        ENDC
+        PSHS    A,B,X           ;save regs
         LDX     #$FFC0          ;SAM base addr
 SAM10   LSRA                    ;16-bit logical shift right
         RORB                    ;   .
@@ -408,7 +416,11 @@ CLOCK   LDX     #PIA$1          ;load ptr to PIA #1
         STD     FLOP            ;   .
         STU     FLIP            ;   .
         LDD     P.VDSAM,U       ;SAM/VDG page number
+        IFDEF   COCO3
+        INC     NEWFRM          ;let the engine present it
+        ELSE
         BSR     SAM             ;change the SAM address
+        ENDC
         CLR     UPDATE          ;reset flag
 ;
 ;  30-Hz. Buzzing Sound (used in opening)
@@ -503,11 +515,16 @@ CLK50   TST     FAINT           ;have we fainted?
 ;
 ;  GAME - Use POLCAT Routine/Buffer Chars
 ;
-CLK60   SWI2                    ;scan the keyboard
+CLK60   EQU     *
+        IFDEF   COCO3
+        JSR     KEYSCN          ;scan the keyboard
+        ELSE
+        SWI2                    ;scan the keyboard
         FCB     POLCAT-$A000    ;   .
         TSTA                    ;check for nulls
         BEQ     CLK90           ;   ignore nulls
         BSR     KBDPUT          ;deposit char in buffer
+        ENDC
 ;
 CLK90   LDA     P.PIIOB+PIA$0   ;reset PIA for next interrupt
         RTI                     ;dismiss the interrupt
